@@ -4,7 +4,7 @@ from db import Table
 def get_records(table: Table, filters=None):
     all_records = table.get_records()
     if not filters:
-        return all_records
+        return [record for record in all_records]
 
     filtered_records = []
     for record in all_records:

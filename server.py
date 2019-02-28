@@ -23,7 +23,7 @@ def get_proposals():
 def get_proposal(proposal_id):
     try:
         filters, selects = parse_args(request.args)
-        filters['id'] = proposal_id
+        filters['id'] = [proposal_id]
         matching_proposal = get_request_handler.get_proposals(filters, selects)
         if matching_proposal:
             return jsonify(matching_proposal[0])

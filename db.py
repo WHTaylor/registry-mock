@@ -1,5 +1,6 @@
 from datetime import datetime
 from enum import Enum, auto
+from copy import deepcopy
 
 
 proposals = [
@@ -46,7 +47,7 @@ requests = [
      "requested_time": 2,
      "requested_instrument": "ZOOM",
      "alternative_instruments": None},
-    {"id": 2,
+    {"id": 3,
      "proposal_id": 3,
      "requested_time": 2,
      "requested_instrument": "LSF",
@@ -112,13 +113,13 @@ class Table(Enum):
 
     def get_records(self):
         if self.name == 'PROPOSAL':
-            return proposals
+            return deepcopy(proposals)
         elif self.name == 'REQUEST':
-            return requests
+            return deepcopy(requests)
         elif self.name == 'ALLOCATION':
-            return allocations
+            return deepcopy(allocations)
         elif self.name == 'FAP':
-            return faps
+            return deepcopy(faps)
 
 
 class Select(Enum):
