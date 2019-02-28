@@ -24,3 +24,35 @@ def get_records(table: Table, filters=None):
 
 def get_next_id(table):
     return len(table.get_records()) + 1
+
+
+schema = {
+    Table.PROPOSAL: [
+        "reference_number",
+        "facility",
+        "access_route",
+        "title",
+        "round",
+        "pi_un",
+        "created",
+        "note",
+        "org_id"],
+    Table.ALLOCATION: [
+        "allocated_time",
+        "allocated_instrument"
+    ],
+    Table.REQUEST: [
+        "requested_time",
+        "requested_instrument",
+        "alternative_instruments"
+    ],
+    Table.FAP: [
+        "panel",
+        "score",
+        "feedback"
+    ]
+}
+
+reverse_schema = {
+    e: k for k, v in schema.items() for e in v
+}
