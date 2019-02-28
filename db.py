@@ -1,6 +1,7 @@
 from datetime import datetime
 from enum import Enum, auto
 from copy import deepcopy
+from disk_db_io import read_db_table, write_db_table
 
 
 proposals = [
@@ -130,9 +131,10 @@ class Table(Enum):
             return proposals_to_contacts
 
     def get_records(self):
-        return deepcopy(self._get_db_table())
+        return deepcopy(read_db_table(str.lower(self.name)))
 
     def insert_record(self, record):
-        table = self._get_db_table()
+        table = self.get_records()
         table.append(record)
+        write_db_table(str.lower(self.name), table)
         return deepcopy(table[-1])
