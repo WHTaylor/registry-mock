@@ -15,8 +15,8 @@ def index():
 @app.route('/api/v1/proposals', methods=['GET'])
 def get_proposals():
     try:
-        filters, selects = parse_args(request.args)
-        proposal_data = get_request_handler.get_proposals(filters, selects)
+        filters, subsections = parse_args(request.args)
+        proposal_data = get_request_handler.get_proposals(filters, subsections)
         return return_format(proposal_data)
     except ValueError as err:
         abort(400, err)
@@ -25,9 +25,9 @@ def get_proposals():
 @app.route('/api/v1/proposals/<int:proposal_id>', methods=['GET'])
 def get_proposal(proposal_id):
     try:
-        filters, selects = parse_args(request.args)
+        filters, subsections = parse_args(request.args)
         filters['id'] = [proposal_id]
-        matching_proposal = get_request_handler.get_proposals(filters, selects)
+        matching_proposal = get_request_handler.get_proposals(filters, subsections)
         if matching_proposal:
             return return_format(matching_proposal)
         else:

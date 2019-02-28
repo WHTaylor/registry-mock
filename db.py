@@ -130,18 +130,21 @@ class Table(Enum):
         return deepcopy(table[-1])
 
 
-class Select(Enum):
+class ProposalSubsection(Enum):
     REQUEST = Table.REQUEST
     ALLOCATION = Table.ALLOCATION
     FAP = Table.FAP
+    CORE = None
 
     @staticmethod
     def from_string(s):
         if str.lower(s) == "request":
-            return Select.REQUEST
+            return ProposalSubsection.REQUEST
         elif str.lower(s) == "allocation":
-            return Select.ALLOCATION
+            return ProposalSubsection.ALLOCATION
         elif str.lower(s) == "fap":
-            return Select.FAP
+            return ProposalSubsection.FAP
+        elif not s or str.lower(s) == "core" or str.lower(s) == "none":
+            return ProposalSubsection.CORE
         else:
-            raise ValueError(f'"{s}" is not valid as a query string for sub selecting')
+            raise ValueError(f'"{s}" is not a subsection of a proposal')
