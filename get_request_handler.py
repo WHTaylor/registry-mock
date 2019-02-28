@@ -1,5 +1,5 @@
-from db_access import get_records
-from db import Table, ProposalSubsection
+from db_access import get_records, ProposalSubsection
+from db import Table
 
 
 def get_proposals(filters=None, subsections=None):
@@ -9,7 +9,7 @@ def get_proposals(filters=None, subsections=None):
         subsections = [s for s in ProposalSubsection]
     for subsection in subsections:
         if subsection != ProposalSubsection.CORE:
-            matching_subsections = get_records(subsection.value, {'proposal_id': proposal_ids})
+            matching_subsections = subsection.get_data({'proposal_id': proposal_ids})
             selected_proposals = append_extra_fields(selected_proposals, matching_subsections, str.lower(subsection.name))
     return selected_proposals
 

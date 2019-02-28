@@ -95,11 +95,14 @@ proposals_to_contacts = [
 ]
 
 contacts = [
-    {"id": "33",
+    {"id": 33,
+     "un": "321",
      "role": "local contact"},
-    {"id": "44",
+    {"id": 44,
+     "un": "432",
      "role": "local contact"},
-    {"id": "52",
+    {"id": 52,
+     "un": "765",
      "role": "experiment contact"}
 ]
 
@@ -110,6 +113,7 @@ class Table(Enum):
     ALLOCATION = auto()
     FAP = auto()
     CONTACT = auto()
+    PROPOSAL_TO_CONTACT = auto()
 
     def _get_db_table(self):
         if self.name == 'PROPOSAL':
@@ -120,6 +124,10 @@ class Table(Enum):
             return allocations
         elif self.name == 'FAP':
             return faps
+        elif self.name == 'CONTACT':
+            return contacts
+        elif self.name == 'PROPOSAL_TO_CONTACT':
+            return proposals_to_contacts
 
     def get_records(self):
         return deepcopy(self._get_db_table())
@@ -128,23 +136,3 @@ class Table(Enum):
         table = self._get_db_table()
         table.append(record)
         return deepcopy(table[-1])
-
-
-class ProposalSubsection(Enum):
-    REQUEST = Table.REQUEST
-    ALLOCATION = Table.ALLOCATION
-    FAP = Table.FAP
-    CORE = None
-
-    @staticmethod
-    def from_string(s):
-        if str.lower(s) == "request":
-            return ProposalSubsection.REQUEST
-        elif str.lower(s) == "allocation":
-            return ProposalSubsection.ALLOCATION
-        elif str.lower(s) == "fap":
-            return ProposalSubsection.FAP
-        elif not s or str.lower(s) == "core" or str.lower(s) == "none":
-            return ProposalSubsection.CORE
-        else:
-            raise ValueError(f'"{s}" is not a subsection of a proposal')

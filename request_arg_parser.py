@@ -1,4 +1,4 @@
-from db import ProposalSubsection
+from db_access import ProposalSubsection
 
 
 def parse_args(args):
