@@ -1,4 +1,6 @@
 from datetime import datetime
+from enum import Enum, auto
+
 
 proposals = [
     {"id": 1,
@@ -99,3 +101,18 @@ contacts = [
     {"id": "52",
      "role": "experiment contact"}
 ]
+
+
+class Table(Enum):
+    PROPOSAL = auto()
+    REQUEST = auto()
+    ALLOCATION = auto()
+    CONTACT = auto()
+
+    def get_records(self):
+        if self.name == 'PROPOSAL':
+            return proposals
+        elif self.name == 'REQUEST':
+            return requests
+        elif self.name == 'ALLOCATION':
+            return allocations
