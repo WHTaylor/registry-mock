@@ -107,6 +107,7 @@ class Table(Enum):
     PROPOSAL = auto()
     REQUEST = auto()
     ALLOCATION = auto()
+    FAP = auto()
     CONTACT = auto()
 
     def get_records(self):
@@ -116,3 +117,22 @@ class Table(Enum):
             return requests
         elif self.name == 'ALLOCATION':
             return allocations
+        elif self.name == 'FAP':
+            return faps
+
+
+class Select(Enum):
+    REQUEST = Table.REQUEST
+    ALLOCATION = Table.ALLOCATION
+    FAP = Table.FAP
+
+    @staticmethod
+    def from_string(s):
+        if str.lower(s) == "request":
+            return Select.REQUEST
+        elif str.lower(s) == "allocation":
+            return Select.ALLOCATION
+        elif str.lower(s) == "fap":
+            return Select.FAP
+        else:
+            raise ValueError(f'"{s}" is not valid as a query string for sub selecting')

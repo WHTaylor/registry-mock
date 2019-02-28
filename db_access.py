@@ -9,9 +9,9 @@ def get_records(table: Table, filters=None):
     filtered_records = []
     for record in all_records:
         valid = True
-        for attribute, value in filters.items():
+        for attribute, value_list in filters.items():
             try:
-                if record[attribute] != value:
+                if record[attribute] not in value_list:
                     valid = False
                     break
             except KeyError:
