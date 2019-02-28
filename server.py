@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, url_for
 import get_request_handler
 from request_arg_parser import parse_args
+from copy import deepcopy
 
 app = Flask(__name__)
 
@@ -14,7 +15,8 @@ def index():
 def get_proposals():
     try:
         filters, selects = parse_args(request.args)
-        return jsonify(get_request_handler.get_proposals(filters, selects))
+        proposal_data = get_request_handler.get_proposals(filters, selects)
+        return return_format(proposal_data)
     except ValueError as err:
         abort(400, err)
 
@@ -26,11 +28,19 @@ def get_proposal(proposal_id):
         filters['id'] = [proposal_id]
         matching_proposal = get_request_handler.get_proposals(filters, selects)
         if matching_proposal:
-            return jsonify(matching_proposal[0])
+            return return_format(matching_proposal)
         else:
-            abort(404, f"No proposal with id '{proposal_id}' exists")
+            abort(404,  "No such proposal")
     except ValueError as err:
         abort(400, err)
+
+
+def return_format(proposal_data):
+    ids_replaced_with_uris = []
+    for proposal in deepcopy(proposal_data):
+        proposal['uri'] = url_for("get_proposal", proposal_id=proposal['id'], _external=True)
+        ids_replaced_with_uris.append(proposal)
+    return jsonify(ids_replaced_with_uris)
 
 
 if __name__ == "__main__":
