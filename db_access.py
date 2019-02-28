@@ -20,3 +20,7 @@ def get_records(table: Table, filters=None):
         if valid:
             filtered_records.append(record)
     return filtered_records
+
+
+def get_next_id(table):
+    return len(table.get_records()) + 1

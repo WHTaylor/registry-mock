@@ -111,15 +111,23 @@ class Table(Enum):
     FAP = auto()
     CONTACT = auto()
 
-    def get_records(self):
+    def _get_db_table(self):
         if self.name == 'PROPOSAL':
-            return deepcopy(proposals)
+            return proposals
         elif self.name == 'REQUEST':
-            return deepcopy(requests)
+            return requests
         elif self.name == 'ALLOCATION':
-            return deepcopy(allocations)
+            return allocations
         elif self.name == 'FAP':
-            return deepcopy(faps)
+            return faps
+
+    def get_records(self):
+        return deepcopy(self._get_db_table())
+
+    def insert_record(self, record):
+        table = self._get_db_table()
+        table.append(record)
+        return deepcopy(table[-1])
 
 
 class Select(Enum):

@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, abort, request, url_for
 import get_request_handler
+import post_request_handler
 from request_arg_parser import parse_args
 from copy import deepcopy
 
@@ -30,7 +31,16 @@ def get_proposal(proposal_id):
         if matching_proposal:
             return return_format(matching_proposal)
         else:
-            abort(404,  "No such proposal")
+            abort(404, "No such proposal")
+    except ValueError as err:
+        abort(400, err)
+
+
+@app.route('/api/v1/proposals', methods=['POST'])
+def create_proposal():
+    try:
+        proposal = post_request_handler.create_proposal(request.json)
+        return return_format(proposal), 201
     except ValueError as err:
         abort(400, err)
 
