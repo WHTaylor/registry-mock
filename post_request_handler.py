@@ -39,7 +39,7 @@ def create_proposal(request_json):
         record['id'] = db_access.get_next_id(table)
         table.insert_record(record)
 
-    return [Table.PROPOSAL.insert_record(proposal_core)]
+    return Table.PROPOSAL.insert_record(proposal_core)
 
 
 def validate_request(request_json):

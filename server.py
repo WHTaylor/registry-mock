@@ -39,8 +39,8 @@ def get_proposal(proposal_id):
 @app.route('/api/v1/proposals', methods=['POST'])
 def create_proposal():
     try:
-        proposal = post_request_handler.create_proposal(request.json)
-        return return_format(proposal), 201
+        new_proposal = post_request_handler.create_proposal(request.json)
+        return get_proposal(new_proposal['id'])
     except ValueError as err:
         abort(400, err)
 
